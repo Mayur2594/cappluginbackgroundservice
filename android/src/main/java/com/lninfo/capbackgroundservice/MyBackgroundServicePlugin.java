@@ -1,5 +1,8 @@
 package com.lninfo.capbackgroundservice;
 
+import android.content.Context;
+import android.content.Intent;
+
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
@@ -9,14 +12,17 @@ import com.getcapacitor.annotation.CapacitorPlugin;
 @CapacitorPlugin(name = "MyBackgroundService")
 public class MyBackgroundServicePlugin extends Plugin {
 
-    private MyBackgroundService implementation = new MyBackgroundService();
+    @Override
+    public void load() {
+        addJavaScript("startBackgroundTask", (call) -> {
+            startBackgroundService();
+            return null;
+        });
+    }
 
-    @PluginMethod
-    public void echo(PluginCall call) {
-        String value = call.getString("value");
-
-        JSObject ret = new JSObject();
-        ret.put("value", implementation.echo(value));
-        call.resolve(ret);
+    private void startBackgroundService() {
+        Context context = getContext();
+        Intent serviceIntent = new Intent(context, MyBackgroundService.class);
+        context.startService(serviceIntent);
     }
 }

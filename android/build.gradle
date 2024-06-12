@@ -16,6 +16,15 @@ buildscript {
 }
 
 apply plugin: 'com.android.library'
+apply plugin: 'io.github.capacitor:android-capacitor-plugin:3.5.2'
+
+// Capacitor plugin configuration
+capacitor {
+    appId 'com.example.mybackgroundplugin'
+    appName 'My Background Plugin'
+    bundledJsDir 'src/main/assets/www' // Adjust if needed
+    permissions ['FOREGROUND_SERVICE'] // Request foreground service permission
+}
 
 android {
     namespace "com.lninfo.capbackgroundservice"
